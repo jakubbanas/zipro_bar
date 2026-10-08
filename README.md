@@ -34,4 +34,6 @@ The treadmill advertises as `RZ_TreadMil` (protocol originally from [qdomyos-zwi
 
 Status (`A1`): 18-byte frame while active — byte 3 state, 4 target speed ×10, 5 speed ×10, 6 incline, 10 elapsed s (countdown while starting), 15 heart rate. Short beacons when idle: `fd 05 a1 00 00 a6 fe` (idle), `fd 04 a1 08 ad fe` (sleeping).
 
-States: `00` idle, `01` countdown, `02` running, `04` stopping, `05` stopped, `08` sleeping (ignores start; wake with the remote). Incline commands have no effect on the tested model.
+States: `00` idle, `01` countdown, `02` running, `04` stopping, `05` stopped, `08` sleeping.
+
+The console falls asleep after **10 minutes idle**. While asleep it ignores every BLE command tried (start, keepalive, all `A2` subcodes, command groups `A3`–`AF`) except stop, and BLE keepalives don't reset the timer — only the remote wakes it. Incline commands have no effect on the tested model.

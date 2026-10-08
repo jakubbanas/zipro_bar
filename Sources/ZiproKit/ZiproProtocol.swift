@@ -56,7 +56,8 @@ public enum ZiproProtocol {
 
 public enum TreadmillState: Equatable, Sendable {
     case idle, countdown, running, stopping, stopped
-    /// Console asleep after inactivity (6-byte beacon `fd 04 a1 08 ad fe`); ignores the app until woken.
+    /// Console asleep after 10 min idle (6-byte beacon `fd 04 a1 08 ad fe`). Only the remote wakes it:
+    /// it ignores every BLE command except stop, and BLE keepalives don't reset the timer.
     case sleeping
     case unknown(UInt8)
 

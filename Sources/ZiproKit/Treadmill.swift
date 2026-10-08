@@ -182,7 +182,8 @@ extension Treadmill: CBPeripheralDelegate {
         guard let parsed = ZiproProtocol.parse(data) else { return }
         MainActor.assumeIsolated {
             if parsed.state != status?.state {
-                log.info("state \(String(describing: parsed.state), privacy: .public)")
+                // .notice is persisted to disk, so state history survives for `log show`.
+                log.notice("state \(String(describing: parsed.state), privacy: .public)")
             }
             status = parsed
         }
