@@ -1,7 +1,7 @@
 #!/bin/sh
 # Builds ZiproBar as a universal (arm64 + x86_64), ad-hoc signed .app bundle.
 #   --install  also copy to ~/Applications (stable path for "Open at Login") and launch
-#   --zip      also create build/ZiproBar-<version>.zip for a GitHub release
+#   --zip      also create build/ZiproBar-<version>.zip (+ .sha256) for a GitHub release
 set -eu
 cd "$(dirname "$0")/.."
 
@@ -29,6 +29,6 @@ case "${1:-}" in
     zip="build/ZiproBar-$version.zip"
     rm -f "$zip"
     ditto -c -k --keepParent "$app" "$zip"
-    shasum -a 256 "$zip"
+    (cd build && shasum -a 256 "$(basename "$zip")" | tee "$(basename "$zip").sha256")
     ;;
 esac
